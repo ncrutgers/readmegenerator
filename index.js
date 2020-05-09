@@ -9,64 +9,63 @@ const questions = [
     {
         type: "input", 
         name: "username",
-        message: "Enter your GitHub Username"
+        message: "Enter your GitHub Username. Note: your public email and profile image will be posted on your README doc."
     },
-    // {
-    //     type: "input",
-    //     name: "title",
-    //     message: "What is your project title?"
-    // },
-    // {
-    //     type: "input",
-    //     name: "description",
-    //     message: "What is the description?"
-    // },
-    // {
-    //     type: "input",
-    //     name: "contents",
-    //     message: "What is the table of contents?"
-    // },
-    // {
-    //     type: "input",
-    //     name: "installation",
-    //     message: "What are the installation details?"
-    // },
-
-    // {
-    //     type: "input",
-    //     name: "usage",
-    //     message: "What is the usage?"
-    // },
-    // {
-    //     type: "input",
-    //     name: "license",
-    //     message: "What is the license?"
-    // },
-    // {
-    //     type: "input",
-    //     name: "badge",
-    //     message: "Include a badge."
-    // },
-    // {
-    //     type: "input",
-    //     name: "contributing",
-    //     message: "What are the contributing factors?"
-    // },
-    // {
-    //     type: "input",
-    //     name: "tests",
-    //     message: "Did you write any tests?"
-    // },
-    // {
-    //     type: "input",
-    //     name: "questions",
-    //     message: "Questions"
-    // }
+    {
+        type: "input",
+        name: "title",
+        message: "What is your project title?"
+    },
+    {
+        type: "input",
+        name: "description",
+        message: "Write a brief description of the project?"
+    },
+    {
+        type: "input",
+        name: "installation",
+        message: "What are the installation commands if any?"
+    },
+    {
+        type: "input",
+        name: "usage",
+        message: "What are the instructions and examples for use?"
+    },
+    {
+        type: "input",
+        name: "credits",
+        message: "List your collaborators"
+    },
+    {
+        type: "input",
+        name: "license",
+        message: "What kind of license should the project have?"
+    },
+    {
+        type: "input",
+        name: "badges",
+        message: "Include badges script here?"
+    },
+    {
+        type: "input",
+        name: "contributing",
+        message: "What are the contributing guidelines for other developers?"
+    },
+    {
+        type: "input",
+        name: "tests",
+        message: "Commands to run to run tests if any."
+    }
 
 ];
-
+// writes to file with provided data
 function writeToFile(fileName, data) {
-
+    fs.writeFile(fileName, data, function(err){
+        if (err){
+            throw err;
+        }
+        console.log("Successfully wrote data to file.")
+    });
 }
 
 function init() {
@@ -82,11 +81,23 @@ function init() {
                 .then(function(res) {
             
                 const userInfo =  {
+                username: response.username,
                 userEmail: res.data.email,
-                userAvatar: res.data.avatar_url
+                userAvatar: res.data.avatar_url,
+                title: response.title,
+                description: response.description,
+                installation: response.installation,
+                usage: response.usage,
+                license: response.license,
+                contributing: response.contributing,
+                tests: response.tests                
+                
                 };
-                console.log(userInfo);
-
+                //console.log(userInfo);
+                var info = generateMarkdown(userInfo);
+                //console.log(info);
+                writeToFile("readme.md", info);
+                
             });
     });
       
