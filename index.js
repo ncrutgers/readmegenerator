@@ -9,7 +9,7 @@ const questions = [
     {
         type: "input", 
         name: "username",
-        message: "Enter your GitHub Username. Note: your public email and profile image will be posted on your README doc."
+        message: "Enter your GitHub Username. Your GitHub public email and profile image will be posted on your README doc."
     },
     {
         type: "input",
@@ -34,7 +34,7 @@ const questions = [
     {
         type: "input",
         name: "credits",
-        message: "List your collaborators"
+        message: "List your collaborators."
     },
     {
         type: "input",
@@ -88,7 +88,9 @@ function init() {
                 description: response.description,
                 installation: response.installation,
                 usage: response.usage,
+                credits: response.credits,
                 license: response.license,
+                badges: response.badges,
                 contributing: response.contributing,
                 tests: response.tests                
                 
@@ -96,7 +98,7 @@ function init() {
                 //console.log(userInfo);
                 var info = generateMarkdown(userInfo);
                 //console.log(info);
-                writeToFile("readme.md", info);
+                writeToFile("README.md", info);
                 
             });
     });
